@@ -1,14 +1,20 @@
-# Use Java 17 base image
-FROM eclipse-temurin:21-jdk
+# Stage 1: Build the project
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy jar file from target folder
-COPY target/*.jar app.jar
+COPY pom.xml .
+COPY src ./src
 
-# Expose port
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run Spring Boot application
 ENTRYPOINT ["java","-jar","app.jar"]

@@ -17,7 +17,7 @@ import com.crud.service.EmpService;
 
 @RestController
 @RequestMapping("/api/emp")
-@CrossOrigin(origins="http://localhost:5173")
+@CrossOrigin(origins="https://emp-crud-frontend.onrender.com")
 public class EmpController {
 
 	@Autowired
